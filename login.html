@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login Page</title>
+    <link rel="stylesheet" href="login.css" />
+    <script
+      src="https://code.jquery.com/jquery-3.7.1.js"
+      integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.22.1/jquery.validate.min.js"
+      integrity="sha512-qu7dMuIm2f0KcKZ3BOoP4c+Hn+r4E8PbD2Ro4rmKsOyheCxcwhzQpf6SojA76dn+owqfANzfTFUTkGA+HpHjOA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+  </head>
+
+  <body>
+    <div class="login-container">
+      <h1>Van Gogh Collection</h1>
+
+      <form class="login-form" id="loginForm">
+        <!-- Username -->
+        <div class="input-box">
+          <input
+            type="text"
+            id="username"
+            name="username"
+            placeholder="Username"
+            autocomplete="username"
+            required
+          />
+
+          <!-- Person Icon -->
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="currentColor"
+            class="input-icon"
+            viewBox="0 0 16 16"
+          >
+            <path
+              d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6"
+            />
+          </svg>
+        </div>
+
+        <!-- Password -->
+        <div class="input-box">
+          <input
+            type="password"
+            id="password"
+            name="password"
+            placeholder="Password"
+            autocomplete="current-password"
+            required
+          />
+
+          <!-- Lock Icon -->
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="currentColor"
+            class="input-icon"
+            viewBox="0 0 16 16"
+          >
+            <path d="M8 1a3 3 0 0 0-3 3v3h6V4a3 3 0 0 0-3-3z" />
+            <path
+              d="M3 7a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2H3z"
+            />
+          </svg>
+        </div>
+
+        <!-- Options -->
+        <div class="options">
+          <label>
+            <input type="checkbox" name="remember" />
+            Remember me
+          </label>
+
+          <a href="#" class="link-primary">Forgot password</a>
+        </div>
+
+        <!-- Login Button -->
+        <button type="submit" class="login-btn" id="loginButton">Login</button>
+
+        <!-- Attempts and Status Message -->
+        <p id="loginMessage" aria-live="polite">Attempts remaining: 5</p>
+
+        <!-- Register -->
+        <p class="register">
+          Don’t have an account?
+          <a href="register.html">Register</a>
+        </p>
+      </form>
+    </div>
+
+    <script>
+      $(document).ready(function () {
+        const validUsername = "Chael";
+        const validPassword = "nonoy123";
+
+        const maxAttempts = 5;
+        let failedAttempts = 0;
+
+        const loginButton = $("#loginButton");
+        const loginMessage = $("#loginMessage");
+
+        $("#loginForm").validate({
+          rules: {
+            username: {
+              required: true,
+            },
+            password: {
+              required: true,
+            },
+          },
+
+          messages: {
+            username: {
+              required: "Please enter your username.",
+            },
+            password: {
+              required: "Please enter your password.",
+            },
+          },
+
+          errorElement: "label",
+          errorClass: "error",
+          validClass: "valid",
+
+          errorPlacement: function (error, element) {
+            error.insertAfter(element.closest(".input-box"));
+          },
+
+          submitHandler: function (form) {
+            if (failedAttempts >= maxAttempts) {
+              return false;
+            }
+
+            const username = $("#username").val().trim();
+            const password = $("#password").val();
+
+            if (username === validUsername && password === validPassword) {
+              loginMessage
+                .css("color", "green")
+                .text("Login successful! Redirecting...");
+
+              window.location.href = "index.html";
+
+              return false;
+            }
+
+            failedAttempts++;
+
+            const remainingAttempts = maxAttempts - failedAttempts;
+
+            if (failedAttempts >= maxAttempts) {
+              loginButton.prop("disabled", true);
+              loginButton.text("Login");
+              loginButton.addClass("locked");
+
+              loginMessage
+                .css("color", "red")
+                .text(
+                  "Login locked! You have entered incorrect credentials 5 times.",
+                );
+            } else {
+              loginMessage
+                .css("color", "red")
+                .text(
+                  "Invalid username or password. " +
+                    remainingAttempts +
+                    " attempt(s) remaining.",
+                );
+            }
+
+            $("#password").val("");
+
+            return false;
+          },
+        });
+      });
+    </script>
+  </body>
+</html>
