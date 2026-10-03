@@ -38,7 +38,7 @@ body {
 
   background-image:
     linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.55)),
-    url("../images/first.jpg");
+    url("images/first.jpg");
 
   background-size: cover;
   background-position: center;
@@ -85,7 +85,7 @@ body {
 
   background-image:
     linear-gradient(rgb(99, 15, 15), rgba(252, 250, 250, 0)),
-    url("../images/second.jpg");
+    url("images/second.jpg");
 
   background-size: cover;
   background-position: center;
@@ -121,7 +121,7 @@ body {
 
   background-image:
     linear-gradient(rgba(245, 245, 245, 0.94), rgba(245, 245, 245, 0.94)),
-    url("../images/third.jpg");
+    url("images/third.jpg");
 
   background-size: cover;
   background-position: center;
